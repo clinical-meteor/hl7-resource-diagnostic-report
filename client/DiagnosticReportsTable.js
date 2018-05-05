@@ -9,6 +9,8 @@ import Toggle from 'material-ui/Toggle';
 import { get } from 'lodash';
 
 const mapDiagnosticReportToRow = function(report){
+  //console.log('report', report)
+  
   var newRow = {
     _id: '',
     subjectDisplay: '',
@@ -114,7 +116,6 @@ export default class DiagnosticReportsTable extends React.Component {
         <td className="toggle">
             <Toggle
               defaultToggled={true}
-              //style={styles.toggle}
             />
           </td>
       );
@@ -135,7 +136,7 @@ export default class DiagnosticReportsTable extends React.Component {
     }
   }
   rowClick(id){
-    console.log('rowClick', id)
+    // console.log('rowClick', id)
     Session.set('diagnosticReportsUpsert', false);
     Session.set('selectedDiagnosticReport', id);
     Session.set('diagnosticReportPageTabIndex', 2);
@@ -162,7 +163,7 @@ export default class DiagnosticReportsTable extends React.Component {
     }
 
     return(
-      <Table id='diagnosticReportsTable' responses hover >
+      <Table id='diagnosticReportsTable' hover >
         <thead>
           <tr>
           { this.renderTogglesHeader(this.data.displayToggle) }

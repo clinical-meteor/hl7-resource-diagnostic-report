@@ -22,11 +22,7 @@ export {
   DynamicRoutes, 
 
   DiagnosticReportsPage,
-  DiagnosticReportsTable,
-
-  DiagnosticReport,
-  DiagnosticReports,
-  DiagnosticReportSchema
+  DiagnosticReportsTable
 };
 
 
