@@ -23,12 +23,12 @@ let defaultDiagnosticReport = {
     'display': '',
     'reference': ''
   },
-  "performer": [{
+  "performer": {
     "actor": {
       'display': '',
       'reference': ''
     }
-  }],
+  },
   "identifier": [],
   "category": {
     'coding': []
@@ -43,6 +43,7 @@ let defaultDiagnosticReport = {
 
 Session.setDefault('diagnosticReportUpsert', false);
 Session.setDefault('selectedDiagnosticReport', false);
+Session.setDefault('fhirVersion', 'v1.0.2');
 
 
 export default class DiagnosticReportDetail extends React.Component {
@@ -50,9 +51,13 @@ export default class DiagnosticReportDetail extends React.Component {
     let data = {
       diagnosticReportId: false,
       diagnosticReport: defaultDiagnosticReport,
-      showDatePicker: false
+      showDatePicker: false,
+      fhirVersion: Session.get('fhirVersion')
     };
 
+    if(this.props.fhirVersion){
+      data.fhirVersion = this.props.fhirVersion;
+    }
 
     if(this.props.showDatePicker){
       data.showDatePicker = this.props.showDatePicker
@@ -85,11 +90,13 @@ export default class DiagnosticReportDetail extends React.Component {
       });
     }
 
-    
-    if(get(data, 'diagnosticReport.performer[0].actor.display')){
-      data.diagnosticReport.performerDisplay = get(data, 'diagnosticReport.performer[0].actor.display');
+    if(data.fhirVersion === "v1.0.2"){
+      data.diagnosticReport.performerDisplay = get(data, 'diagnosticReport.performer.display');
+      data.diagnosticReport.performerReference = get(data, 'diagnosticReport.performer.reference');
     }
-    if(get(data, 'diagnosticReport.performer[0].actor.reference')){
+
+    if(data.fhirVersion === "v3.0.1"){
+      data.diagnosticReport.performerDisplay = get(data, 'diagnosticReport.performer[0].actor.display');
       data.diagnosticReport.performerReference = get(data, 'diagnosticReport.performer[0].actor.reference');
     }
     
@@ -125,7 +132,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='subjectDisplay'
             name='subjectDisplay'
             floatingLabelText='Subject - Display Text'
-            value={this.data.diagnosticReport.subject ? this.data.diagnosticReport.subject.display : ''}
+            value={ get(this, 'data.diagnosticReport.subject.display') }
             onChange={ this.changeState.bind(this, 'subjectDisplay')}
             fullWidth
             /><br/>
@@ -134,7 +141,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='subjectReference'
             name='subjectReference'
             floatingLabelText='Subject Reference'
-            value={this.data.diagnosticReport.subject ? this.data.diagnosticReport.subject.reference : ''}
+            value={ get(this, 'data.diagnosticReport.subject.reference') }
             onChange={ this.changeState.bind(this, 'subjectReference')}
             fullWidth
             /><br/>
@@ -143,7 +150,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='code'
             name='code'
             floatingLabelText='Code'
-            value={this.data.diagnosticReport.code ? this.data.diagnosticReport.code.text : ''}
+            value={ get(this, 'data.diagnosticReport.code.text') }
             onChange={ this.changeState.bind(this, 'code')}
             fullWidth
             /><br/>
@@ -152,7 +159,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='status'
             name='status'
             floatingLabelText='Status'
-            value={this.data.diagnosticReport.status ? this.data.diagnosticReport.status : ''}
+            value={ get(this, 'data.diagnosticReport.status') }
             onChange={ this.changeState.bind(this, 'status')}
             fullWidth
             /><br/>
@@ -161,7 +168,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='issued'
             name='issued'
             floatingLabelText='Issued'
-            value={this.data.diagnosticReport.issued ? this.data.diagnosticReport.issued : ''}
+            value={ get(this, 'data.diagnosticReport.issued') }
             onChange={ this.changeState.bind(this, 'issued')}
             fullWidth
             /><br/>
@@ -170,7 +177,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='performerDisplay'
             name='performerDisplay'
             floatingLabelText='Performer - Display Text'
-            value={this.data.diagnosticReport.performerDisplay ? this.data.diagnosticReport.performerDisplay : ''}
+            value={ get(this, 'data.diagnosticReport.performerDisplay') }
             onChange={ this.changeState.bind(this, 'performerDisplay')}
             fullWidth
             /><br/>
@@ -179,7 +186,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='performerReference'
             name='performerReference'
             floatingLabelText='Performer - Reference'
-            value={this.data.diagnosticReport.performerReference ? this.data.diagnosticReport.performerReference : ''}
+            value={ get(this, 'data.diagnosticReport.performerReference') }
             onChange={ this.changeState.bind(this, 'performerReference')}
             fullWidth
             /><br/>            
@@ -188,7 +195,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='identifier'
             name='identifier'
             floatingLabelText='Identifier'
-            value={this.data.diagnosticReport.identifier[0] ? this.data.diagnosticReport.identifier[0].value : ''}
+            value={ get(this, 'data.diagnosticReport.identifier[0].value') }
             onChange={ this.changeState.bind(this, 'identifier')}
             fullWidth
             /><br/>
@@ -198,7 +205,7 @@ export default class DiagnosticReportDetail extends React.Component {
             ref='category'
             name='category'
             floatingLabelText='Category'
-            value={this.data.diagnosticReport.categoryText ? this.data.diagnosticReport.categoryText : ''}
+            value={ get(this, 'data.diagnosticReport.categoryText') }
             onChange={ this.changeState.bind(this, 'category')}
             fullWidth
             /><br/>
@@ -278,7 +285,6 @@ export default class DiagnosticReportDetail extends React.Component {
 
 
 
-  // this could be a mixin
   changeState(field, event, value){
     let diagnosticReportUpsert;
 
@@ -316,20 +322,18 @@ export default class DiagnosticReportDetail extends React.Component {
         diagnosticReportUpsert.issued = moment(value);
         break;
       case "performerDisplay":
-        diagnosticReportUpsert.performer = [{
-          actor: {
-            display: value,
-            reference: performer.actor.reference
-          }
-        }];        
+        // DSTU2
+        diagnosticReportUpsert.performer = {
+          display: value,
+          reference: diagnosticReportUpsert.performer.reference
+        };        
         break;
       case "performerReference":        
-        diagnosticReportUpsert.performer = [{
-          actor: {
-            display: performer.actor.display,
-            reference: value
-          }
-        }];        
+        // DSTU2
+        diagnosticReportUpsert.performer = {
+          display: diagnosticReportUpsert.performer.display,
+          reference: value
+        };        
         break;
       case "identifier":
         diagnosticReportUpsert.identifier = [{
@@ -386,10 +390,16 @@ export default class DiagnosticReportDetail extends React.Component {
         });
     } else {
 
-      if(process.env.NODE_ENV === "test") console.log("create a new diagnosticReport", diagnosticReportUpsert);
+      if(process.env.NODE_ENV === "test") {
+        console.log("create a new diagnosticReport", diagnosticReportUpsert);
+      }
 
       diagnosticReportUpsert.effectiveDateTime = new Date();
       diagnosticReportUpsert.issued = new Date();
+
+      // if(this.data.fhirVersion === "v1.0.2"){
+      //   diagnosticReportUpsert.performer = diagnosticReportUpsert.performer[0];
+      // }
       
       DiagnosticReports.insert(diagnosticReportUpsert, function(error, result) {
         if (error) {

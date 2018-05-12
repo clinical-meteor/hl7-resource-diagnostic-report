@@ -12,7 +12,7 @@ import React  from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin  from 'react-mixin';
 
-
+Session.setDefault('fhirVersion', 'v1.0.2')
 export class DiagnosticReportsPage extends React.Component {
   getMeteorData() {
     let data = {
@@ -25,7 +25,8 @@ export class DiagnosticReportsPage extends React.Component {
       },
       tabIndex: Session.get('diagnosticReportPageTabIndex'),
       diagnosticReportSearchFilter: Session.get('diagnosticReportSearchFilter'),
-      currentDiagnosticReport: Session.get('selectedDiagnosticReport')
+      currentDiagnosticReport: Session.get('selectedDiagnosticReport'),
+      fhirVersion: Session.get('fhirVersion')
     };
 
     data.style = Glass.blur(data.style);
@@ -57,7 +58,7 @@ export class DiagnosticReportsPage extends React.Component {
                  <DiagnosticReportDetail id='newDiagnosticReport' />
                </Tab>
                <Tab className="diagnosticReportListTab" label='DiagnosticReports' onActive={this.handleActive} style={this.data.style.tab} value={1}>
-                <DiagnosticReportsTable />
+                <DiagnosticReportsTable fhirVersion={ this.data.fhirVersion }/>
                </Tab>
                <Tab className="diagnosticReportDetailsTab" label='Detail' onActive={this.handleActive} style={this.data.style.tab} value={2}>
                  <DiagnosticReportDetail 

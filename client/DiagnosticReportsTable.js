@@ -8,7 +8,7 @@ import { Table } from 'react-bootstrap';
 import Toggle from 'material-ui/Toggle';
 import { get } from 'lodash';
 
-const mapDiagnosticReportToRow = function(report){
+const mapDiagnosticReportToRow = function(report, fhirVersion){
   //console.log('report', report)
   
   var newRow = {
@@ -33,14 +33,21 @@ const mapDiagnosticReportToRow = function(report){
         newRow.subjectDisplay = report.subject.reference;          
       }
     }
-
-    if(report.performer && report.performer[0] && report.performer[0].actor){
-      if(report.performer[0].actor.display){
-        newRow.performerDisplay = report.performer[0].actor.display;
+    if(fhirVersion === "v3.0.1"){
+      if(get(report, 'performer[0].actor.display')){
+        newRow.performerDisplay = get(report, 'performer[0].actor.display');
       } else {
-        newRow.performerDisplay = report.performer[0].actor.reference;          
+        newRow.performerDisplay = get(report, 'performer[0].actor.reference');          
       }
     }
+    if(fhirVersion === "v1.0.2"){
+      if(report.performer){
+        newRow.performerDisplay = report.performer.display;
+      } else {
+        newRow.performerDisplay = report.performer.reference;          
+      }      
+    }
+
     if(report.code){
       newRow.code = report.code.text;
     }
@@ -77,7 +84,12 @@ export default class DiagnosticReportsTable extends React.Component {
       selected: [],
       diagnosticReports: [],
       displayToggle: false,
-      displayDates: true
+      displayDates: true,
+      fhirVersion: 'v1.0.2'
+    }
+
+    if(this.props.fhirVersion){
+      data.fhirVersion = this.props.fhirVersion;
     }
 
     if(this.props.displayToggles){
@@ -89,12 +101,12 @@ export default class DiagnosticReportsTable extends React.Component {
     
     if(this.props.data){
       this.props.data.map(function(report){
-        data.diagnosticReports.push(mapDiagnosticReportToRow(report));        
+        data.diagnosticReports.push(mapDiagnosticReportToRow(report, data.fhirVersion));        
       });
     } else {
       if(DiagnosticReports.find().count() > 0){
         DiagnosticReports.find().map(function(report){
-          data.diagnosticReports.push(mapDiagnosticReportToRow(report));        
+          data.diagnosticReports.push(mapDiagnosticReportToRow(report, data.fhirVersion));        
         });
       }
     }
