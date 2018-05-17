@@ -42,9 +42,9 @@ const mapDiagnosticReportToRow = function(report, fhirVersion){
     }
     if(fhirVersion === "v1.0.2"){
       if(report.performer){
-        newRow.performerDisplay = report.performer.display;
+        newRow.performerDisplay = get(report, 'performer.display');
       } else {
-        newRow.performerDisplay = report.performer.reference;          
+        newRow.performerDisplay = get(report, 'performer.reference'); 
       }      
     }
 
@@ -52,8 +52,8 @@ const mapDiagnosticReportToRow = function(report, fhirVersion){
       newRow.code = report.code.text;
     }
 
-    if(report.identifier && report.identifier[0] && report.identifier[0].value){
-      newRow.identifier = report.identifier[0].value;
+    if(get(report, 'identifier[0].value')){
+      newRow.identifier = get(report, 'identifier[0].value');
     }
     if(report.status){
       newRow.status = report.status;
@@ -61,8 +61,8 @@ const mapDiagnosticReportToRow = function(report, fhirVersion){
     if(report.effectiveDateTime){
       newRow.effectiveDate = moment(report.effectiveDateTime).format("YYYY-MM-DD");
     }
-    if(report.category && report.category.coding && report.category.coding[0] && report.category.coding[0].code ){
-      newRow.category = report.category.coding[0].code;
+    if(get(report, 'category.coding[0].code')){
+      newRow.category = get(report, 'category.coding[0].code');
     }
     if(report.issued){
       newRow.issued = moment(report.issued).format("YYYY-MM-DD"); 
