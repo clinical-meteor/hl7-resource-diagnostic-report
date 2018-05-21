@@ -136,14 +136,14 @@ export default class DiagnosticReportsTable extends React.Component {
   renderDateHeader(displayDates){
     if (displayDates) {
       return (
-        <th className='effectiveDateTime'>effective date</th>
+        <th className='effectiveDateTime'  style={{width: '120px'}}>effective date</th>
       );
     }
   }
   renderDate(displayDates, newDate ){
     if (displayDates) {
       return (
-        <td className='date'>{ moment(newDate).format('YYYY-MM-DD') }</td>
+        <td className='date'  style={{width: '120px'}}>{ moment(newDate).format('YYYY-MM-DD') }</td>
       );
     }
   }
@@ -161,10 +161,10 @@ export default class DiagnosticReportsTable extends React.Component {
         <tr key={i} className="diagnosticReportRow" style={{cursor: "pointer"}} onClick={ this.rowClick.bind('this', this.data.diagnosticReports[i]._id)} >
           { this.renderToggles(this.data.displayToggle, this.data.diagnosticReports[i]) }
 
-          <td className='subjectDisplay'>{ this.data.diagnosticReports[i].subjectDisplay }</td>
+          <td className='subjectDisplay' style={{width: '140px'}}>{ this.data.diagnosticReports[i].subjectDisplay }</td>
           <td className='code'>{ this.data.diagnosticReports[i].code }</td>
           <td className='status'>{ this.data.diagnosticReports[i].status }</td>
-          <td className='issued'>{ this.data.diagnosticReports[i].issued }</td>
+          <td className='issued'  style={{width: '120px'}}>{ this.data.diagnosticReports[i].issued }</td>
           <td className='performerDisplay'>{ this.data.diagnosticReports[i].performerDisplay }</td>
           <td className='identifier'>{ this.data.diagnosticReports[i].identifier }</td>
           {/* <td className='effectiveDateTime'>{ this.data.diagnosticReports[i].effectiveDate }</td> */}
@@ -179,10 +179,10 @@ export default class DiagnosticReportsTable extends React.Component {
         <thead>
           <tr>
           { this.renderTogglesHeader(this.data.displayToggle) }
-            <th className='subjectDisplay'>subject</th>
+            <th className='subjectDisplay' style={{width: '140px'}}>subject</th>
             <th className='code'>code</th>
             <th className='status'>status</th>
-            <th className='issued'>issued</th>
+            <th className='issued' style={{width: '120px'}}>issued</th>
             <th className='performerDisplay'>performer</th>
             <th className='identifier'>identifier</th>
             <th className='category'>category</th>
