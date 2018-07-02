@@ -1,4 +1,4 @@
-##clinical:hl7-resource-diagnostic-report
+## clinical:hl7-resource-diagnostic-report
 
 #### Licensing  
 
@@ -14,7 +14,7 @@
 
 This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/diagnosticreport.html](https://www.hl7.org/fhir/diagnosticreport.html).
 
-===============================
+
 #### Installation  
 
 ````bash
@@ -25,7 +25,7 @@ meteor add clinical:hl7-resource-diagnostic-report
 INITIALIZE=true meteor
 ````
 
-===============================
+
 #### Utilities  
 
 If you're working with HL7 FHIR Resources, we recommend using [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en).
