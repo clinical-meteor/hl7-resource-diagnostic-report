@@ -1,7 +1,7 @@
 import { CardActions, CardText } from 'material-ui/Card';
 import { GlassCard, VerticalCanvas, Glass } from 'meteor/clinical:glass-ui';
 
-import { Bert } from 'meteor/themeteorchef:bert';
+import { Bert } from 'meteor/clinical:alert';
 import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
