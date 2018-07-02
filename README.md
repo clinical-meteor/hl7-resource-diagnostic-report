@@ -1,6 +1,18 @@
 ##clinical:hl7-resource-diagnostic-report
 
-HL7 FHIR Resource - Diagnostic Report
+#### Licensing  
+
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+
+#### Integration & Verification Tests  
+
+[![CircleCI](https://circleci.com/gh/clinical-meteor/hl7-resource-diagnostic-report/tree/master.svg?style=svg)](https://circleci.com/gh/clinical-meteor/hl7-resource-diagnostic-report/tree/master)
+
+
+#### API Reference  
+
+This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/diagnosticreport.html](https://www.hl7.org/fhir/diagnosticreport.html).
 
 ===============================
 #### Installation  
@@ -18,12 +30,7 @@ INITIALIZE=true meteor
 
 If you're working with HL7 FHIR Resources, we recommend using [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en).
 
-===============================
-#### Conformance Statement  
 
-The resource in this package implements the FHIR Patient Resource schema provided at  [https://www.hl7.org/fhir/diagnosticreport.html](https://www.hl7.org/fhir/diagnosticreport.html).  
+#### Acknowledgements     
 
-===============================
-#### Licensing  
-
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
+Many thanks to VisExcell, DxRx Medical, the Society for Imaging Informatics in Medicine, and the Open Health Imaging Foundation for their generous support in sponsoring this package.   
