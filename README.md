@@ -12,7 +12,7 @@
 
 #### API Reference  
 
-This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/diagnosticreport.html](https://www.hl7.org/fhir/diagnosticreport.html).
+This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/DSTU2/diagnosticreport.html](https://www.hl7.org/fhir/DSTU2/diagnosticreport.html).
 
 
 #### Installation  
