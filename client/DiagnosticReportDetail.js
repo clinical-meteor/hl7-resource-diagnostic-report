@@ -12,6 +12,7 @@ import { browserHistory } from 'react-router';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { Col, Grid, Row } from 'react-bootstrap';
+import { moment } from 'meteor/momentjs:moment'
 
 let defaultDiagnosticReport = {
   "resourceType": "DiagnosticReport",
@@ -34,7 +35,7 @@ let defaultDiagnosticReport = {
   "category": {
     'coding': []
   },
-  "effectiveDateTime": "",
+  "effectiveDateTime": new Date(),
   "conclusion": "",
   "categoryText": "",
   "conclusion": ""
@@ -64,8 +65,6 @@ export default class DiagnosticReportDetail extends React.Component {
       data.showDatePicker = this.props.showDatePicker
     }
 
-
-
     if (Session.get('diagnosticReportUpsert')) {
       data.diagnosticReport = Session.get('diagnosticReportUpsert');
     } else {
@@ -83,7 +82,6 @@ export default class DiagnosticReportDetail extends React.Component {
       //   data.diagnosticReport = defaultDiagnosticReport;
       // }
     }
-
     
     if(data.diagnosticReport.category && data.diagnosticReport.category.coding){
       data.diagnosticReport.category.coding.forEach(function(coding){
@@ -112,15 +110,28 @@ export default class DiagnosticReportDetail extends React.Component {
   }
   renderDatePicker(showDatePicker, datePickerValue){
     if (showDatePicker) {
+      // let formattedDate = moment(datePickerValue).format('YYYY-MM-DD')
+      let formattedDate = datePickerValue
+      console.log('formattedDate', formattedDate)
+      if(typeof formattedDate === "undefined"){
+        formattedDate = null;
+      }
       return (
-        <DatePicker 
-          name='effectiveDate'
-          hintText="Effective Date" 
-          container="inline" 
-          mode="landscape"
-          value={ datePickerValue ? datePickerValue : ''}    
-          onChange={ this.changeState.bind(this, 'effectiveDate')}      
-          />         
+        <Row>
+          <Col md={3} >
+            <DatePicker 
+              name='effectiveDate'
+              floatingLabelText="Effective Date" 
+              hintText="YYYY-MM-DD" 
+              container="inline" 
+              mode="landscape"
+              value={ formattedDate ? formattedDate : ''}    
+              onChange={ this.changeState.bind(this, 'effectiveDate')}    
+              floatingLabelFixed={true}
+              fullWidth  
+              />    
+          </Col>
+        </Row>     
       );
     }
   }
@@ -253,7 +264,7 @@ export default class DiagnosticReportDetail extends React.Component {
 
 
 
-          { this.renderDatePicker(this.data.showDatePicker, get(this, 'data.diagnosticReport.effectiveDate') ) }
+          { this.renderDatePicker(true, get(this, 'data.diagnosticReport.effectiveDate') ) }
 
           <TextField
             id='conclusionInput'
@@ -388,7 +399,7 @@ export default class DiagnosticReportDetail extends React.Component {
         }];
         break;
       case "effectiveDate":
-        diagnosticReportUpsert.effectiveDate = value;
+        diagnosticReportUpsert.effectiveDate = moment(value).toDate()
         break;
       case "conclusion":
         diagnosticReportUpsert.conclusion = value;
