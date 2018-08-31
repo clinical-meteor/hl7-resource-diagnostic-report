@@ -11,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import { browserHistory } from 'react-router';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
+import { Col, Grid, Row } from 'react-bootstrap';
 
 let defaultDiagnosticReport = {
   "resourceType": "DiagnosticReport",
@@ -127,93 +128,132 @@ export default class DiagnosticReportDetail extends React.Component {
     return (
       <div id={this.props.id} className="diagnosticReportDetail">
         <CardText>
-          <TextField
-            id='subjectDisplayInput'
-            ref='subjectDisplay'
-            name='subjectDisplay'
-            floatingLabelText='Subject - Display Text'
-            value={ get(this, 'data.diagnosticReport.subject.display') }
-            onChange={ this.changeState.bind(this, 'subjectDisplay')}
-            fullWidth
-            /><br/>
-            <TextField
-            id='subjectReferenceInput'
-            ref='subjectReference'
-            name='subjectReference'
-            floatingLabelText='Subject Reference'
-            value={ get(this, 'data.diagnosticReport.subject.reference') }
-            onChange={ this.changeState.bind(this, 'subjectReference')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='codeInput'
-            ref='code'
-            name='code'
-            floatingLabelText='Code'
-            value={ get(this, 'data.diagnosticReport.code.text') }
-            onChange={ this.changeState.bind(this, 'code')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='statusInput'
-            ref='status'
-            name='status'
-            floatingLabelText='Status'
-            value={ get(this, 'data.diagnosticReport.status') }
-            onChange={ this.changeState.bind(this, 'status')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='issuedInput'
-            ref='issued'
-            name='issued'
-            floatingLabelText='Issued'
-            value={ get(this, 'data.diagnosticReport.issued') }
-            onChange={ this.changeState.bind(this, 'issued')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='performerDisplayInput'
-            ref='performerDisplay'
-            name='performerDisplay'
-            floatingLabelText='Performer - Display Text'
-            value={ get(this, 'data.diagnosticReport.performerDisplay') }
-            onChange={ this.changeState.bind(this, 'performerDisplay')}
-            fullWidth
-            /><br/>
-            <TextField
-            id='performerReferenceInput'
-            ref='performerReference'
-            name='performerReference'
-            floatingLabelText='Performer - Reference'
-            value={ get(this, 'data.diagnosticReport.performerReference') }
-            onChange={ this.changeState.bind(this, 'performerReference')}
-            fullWidth
-            /><br/>            
-          <TextField
-            id='identifierInput'
-            ref='identifier'
-            name='identifier'
-            floatingLabelText='Identifier'
-            value={ get(this, 'data.diagnosticReport.identifier[0].value') }
-            onChange={ this.changeState.bind(this, 'identifier')}
-            fullWidth
-            /><br/>
+        <Row>
+            <Col md={3}>
+              <TextField
+                id='identifierInput'
+                ref='identifier'
+                name='identifier'
+                floatingLabelText='Identifier'
+                value={ get(this, 'data.diagnosticReport.identifier[0].value') }
+                onChange={ this.changeState.bind(this, 'identifier')}
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+            <Col md={3}>
+              <TextField
+                id='statusInput'
+                ref='status'
+                name='status'
+                floatingLabelText='Status'
+                value={ get(this, 'data.diagnosticReport.status') }
+                onChange={ this.changeState.bind(this, 'status')}
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+            <Col md={3}>
+              <TextField
+                id='codeInput'
+                ref='code'
+                name='code'
+                floatingLabelText='Code'
+                value={ get(this, 'data.diagnosticReport.code.text') }
+                onChange={ this.changeState.bind(this, 'code')}
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+            <Col md={3}>
+              <TextField
+                id='categoryInput'
+                ref='category'
+                name='category'
+                floatingLabelText='Category'
+                value={ get(this, 'data.diagnosticReport.categoryText') }
+                onChange={ this.changeState.bind(this, 'category')}
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6} >
+              <TextField
+                id='subjectDisplayInput'
+                ref='subjectDisplay'
+                name='subjectDisplay'
+                floatingLabelText='Subject'
+                value={ get(this, 'data.diagnosticReport.subject.display') }
+                onChange={ this.changeState.bind(this, 'subjectDisplay')}
+                hintText='Jane Doe'
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+            <Col md={6} >
+              <TextField
+                id='subjectReferenceInput'
+                ref='subjectReference'
+                name='subjectReference'
+                floatingLabelText='Subject Reference'
+                value={ get(this, 'data.diagnosticReport.subject.reference') }
+                onChange={ this.changeState.bind(this, 'subjectReference')}
+                hintText='Patient/123456790'
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6} >
+              <TextField
+                id='performerDisplayInput'
+                ref='performerDisplay'
+                name='performerDisplay'
+                floatingLabelText='Performer'
+                value={ get(this, 'data.diagnosticReport.performerDisplay') }
+                hintText='Gregory House'
+                onChange={ this.changeState.bind(this, 'performerDisplay')}
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+            <Col md={6} >
+              <TextField
+                id='performerReferenceInput'
+                ref='performerReference'
+                name='performerReference'
+                floatingLabelText='Performer'
+                value={ get(this, 'data.diagnosticReport.performerReference') }
+                hintText='Practitioner/123456790'
+                onChange={ this.changeState.bind(this, 'performerReference')}
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>   
+            </Col>
+          </Row>
 
-          <TextField
-            id='categoryInput'
-            ref='category'
-            name='category'
-            floatingLabelText='Category'
-            value={ get(this, 'data.diagnosticReport.categoryText') }
-            onChange={ this.changeState.bind(this, 'category')}
-            fullWidth
-            /><br/>
 
-            <br/>
+          {/* <Row>
+            <Col md={6} >
+              <TextField
+                  id='issuedInput'
+                  ref='issued'
+                  name='issued'
+                  floatingLabelText='Issued'
+                  value={ get(this, 'data.diagnosticReport.issued') }
+                  onChange={ this.changeState.bind(this, 'issued')}
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+            </Col>
+          </Row> */}
+
+
+
           { this.renderDatePicker(this.data.showDatePicker, get(this, 'data.diagnosticReport.effectiveDate') ) }
-          <br/>
-
 
           <TextField
             id='conclusionInput'
@@ -223,6 +263,7 @@ export default class DiagnosticReportDetail extends React.Component {
             value={this.data.diagnosticReport.conclusion ? this.data.diagnosticReport.conclusion : ''}
             onChange={ this.changeState.bind(this, 'conclusion')}
             multiLine={true}          
+            rows={5}
             fullWidth
             /><br/>
       </CardText>
