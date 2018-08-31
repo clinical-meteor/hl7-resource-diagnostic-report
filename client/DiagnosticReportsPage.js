@@ -51,7 +51,7 @@ export class DiagnosticReportsPage extends React.Component {
       <div id='diagnosticReportsPage'>
         <VerticalCanvas>
           <GlassCard height='auto'>
-            <CardTitle title='DiagnosticReports' />
+            <CardTitle title='Diagnostic Reports' />
             <CardText>
               <Tabs id="diagnosticReportsPageTabs" default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
                <Tab className='newDiagnosticReportTab' label='New' style={this.data.style.tab} onActive={ this.onNewTab } value={0}>
