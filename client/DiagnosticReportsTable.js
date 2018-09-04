@@ -48,31 +48,24 @@ const mapDiagnosticReportToRow = function(report, fhirVersion){
       }      
     }
 
-    if(report.code){
-      newRow.code = report.code.text;
-    }
-
-    if(get(report, 'identifier[0].value')){
-      newRow.identifier = get(report, 'identifier[0].value');
-    }
-    if(report.status){
-      newRow.status = report.status;
-    }
-    if(report.effectiveDateTime){
-      newRow.effectiveDate = moment(report.effectiveDateTime).format("YYYY-MM-DD");
-    }
     if(get(report, 'category.coding[0].code')){
       newRow.category = get(report, 'category.coding[0].code');
+    } else {
+      newRow.category = get(report, 'category.text');
     }
-    if(report.issued){
-      newRow.issued = moment(report.issued).format("YYYY-MM-DD"); 
-    }       
+
+    newRow.code = get(report, 'code.text', '');
+    newRow.identifier = get(report, 'identifier[0].value', '');
+    newRow.status = get(report, 'status', '');
+    newRow.effectiveDate = moment(get(report, 'effectiveDateTime')).format("YYYY-MM-DD");
+    newRow.issued = moment(get(report, 'issued')).format("YYYY-MM-DD"); 
+
     return newRow;  
   } 
 }
 
 
-export default class DiagnosticReportsTable extends React.Component {
+export class DiagnosticReportsTable extends React.Component {
   getMeteorData() {
 
     // this should all be handled by props
@@ -150,10 +143,12 @@ export default class DiagnosticReportsTable extends React.Component {
   rowClick(id){
     // console.log('rowClick', id)
     Session.set('diagnosticReportsUpsert', false);
-    Session.set('selectedDiagnosticReport', id);
+    Session.set('selectedDiagnosticReportId', id);
     Session.set('diagnosticReportPageTabIndex', 2);
   };
   render () {
+    if(process.env.NODE_ENV === "test") console.log('DiagnosticReportsTable.render()', this.data.diagnosticReports)
+
     let tableRows = [];
     for (var i = 0; i < this.data.diagnosticReports.length; i++) {
 
@@ -199,3 +194,4 @@ export default class DiagnosticReportsTable extends React.Component {
 
 
 ReactMixin(DiagnosticReportsTable.prototype, ReactMeteorData);
+export default DiagnosticReportsTable;

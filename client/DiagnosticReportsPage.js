@@ -12,7 +12,9 @@ import React  from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin  from 'react-mixin';
 
-Session.setDefault('fhirVersion', 'v1.0.2')
+Session.setDefault('fhirVersion', 'v1.0.2');
+Session.setDefault('selectedDiagnosticReportId', false);
+
 export class DiagnosticReportsPage extends React.Component {
   getMeteorData() {
     let data = {
@@ -25,9 +27,16 @@ export class DiagnosticReportsPage extends React.Component {
       },
       tabIndex: Session.get('diagnosticReportPageTabIndex'),
       diagnosticReportSearchFilter: Session.get('diagnosticReportSearchFilter'),
-      currentDiagnosticReport: Session.get('selectedDiagnosticReport'),
-      fhirVersion: Session.get('fhirVersion')
+      selectedDiagnosticReportId: Session.get('selectedDiagnosticReportId'),
+      fhirVersion: Session.get('fhirVersion'),
+      selectedDiagnosticReport: false
     };
+
+    if (Session.get('selectedDiagnosticReportId')){
+      data.selectedDiagnosticReport = DiagnosticReports.findOne({_id: Session.get('selectedDiagnosticReportId')});
+    } else {
+      data.selectedDiagnosticReport = false;
+    }
 
     data.style = Glass.blur(data.style);
     data.style.appbar = Glass.darkroom(data.style.appbar);
@@ -41,7 +50,7 @@ export class DiagnosticReportsPage extends React.Component {
   }
 
   onNewTab(){
-    Session.set('selectedDiagnosticReport', false);
+    Session.set('selectedDiagnosticReportId', false);
     Session.set('diagnosticReportUpsert', false);
   }
 
@@ -55,7 +64,11 @@ export class DiagnosticReportsPage extends React.Component {
             <CardText>
               <Tabs id="diagnosticReportsPageTabs" default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
                <Tab className='newDiagnosticReportTab' label='New' style={this.data.style.tab} onActive={ this.onNewTab } value={0}>
-                 <DiagnosticReportDetail id='newDiagnosticReport' />
+                 <DiagnosticReportDetail 
+                  id='newDiagnosticReport'
+                  fhirVersion={ this.data.fhirVersion }
+                  diagnosticReport={ this.data.selectedDiagnosticReport }
+                  diagnosticReportId={ this.data.selectedDiagnosticReportId } />  
                </Tab>
                <Tab className="diagnosticReportListTab" label='DiagnosticReports' onActive={this.handleActive} style={this.data.style.tab} value={1}>
                 <DiagnosticReportsTable fhirVersion={ this.data.fhirVersion }/>
@@ -63,8 +76,10 @@ export class DiagnosticReportsPage extends React.Component {
                <Tab className="diagnosticReportDetailsTab" label='Detail' onActive={this.handleActive} style={this.data.style.tab} value={2}>
                  <DiagnosticReportDetail 
                   id='diagnosticReportDetails' 
-                  showDatePicker={true}                 
-                />
+                  showDatePicker={true}   
+                  fhirVersion={ this.data.fhirVersion }
+                  diagnosticReport={ this.data.selectedDiagnosticReport }
+                  diagnosticReportId={ this.data.selectedDiagnosticReportId } />               
                </Tab>
              </Tabs>
             </CardText>
