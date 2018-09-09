@@ -470,7 +470,7 @@ export class DiagnosticReportDetail extends React.Component {
       
       DiagnosticReports.update(
         {_id: this.data.diagnosticReportId}, {$set: fhirDiagnosticReportData }, {
-          validate: false, 
+          validate: true, 
           filter: false, 
           removeEmptyStrings: false
         }, function(error, result) {
@@ -501,7 +501,7 @@ export class DiagnosticReportDetail extends React.Component {
       // }
       
       DiagnosticReports.insert(fhirDiagnosticReportData, {
-        validate: false, 
+        validate: true, 
         filter: false, 
         removeEmptyStrings: false
       }, function(error, result) {
