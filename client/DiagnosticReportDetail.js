@@ -212,6 +212,7 @@ export class DiagnosticReportDetail extends React.Component {
                 floatingLabelText='Identifier'
                 value={ get(formData, 'identifier') }
                 onChange={ this.changeState.bind(this, 'identifier')}
+                hintText='CR-01292494'
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
@@ -224,6 +225,7 @@ export class DiagnosticReportDetail extends React.Component {
                 floatingLabelText='Status'
                 value={ get(formData, 'status') }
                 onChange={ this.changeState.bind(this, 'status')}
+                hintText='final'
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
@@ -236,6 +238,7 @@ export class DiagnosticReportDetail extends React.Component {
                 floatingLabelText='Code'
                 value={ get(formData, 'code') }
                 onChange={ this.changeState.bind(this, 'code')}
+                hintText='Chest PA/Lateral'
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
@@ -248,6 +251,7 @@ export class DiagnosticReportDetail extends React.Component {
                 floatingLabelText='Category'
                 value={ get(formData, 'category') }
                 onChange={ this.changeState.bind(this, 'category')}
+                hintText='Computed Radiography'
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
@@ -468,12 +472,8 @@ export class DiagnosticReportDetail extends React.Component {
 
       fhirDiagnosticReportData.issued = new Date();
       
-      DiagnosticReports.update(
-        {_id: this.data.diagnosticReportId}, {$set: fhirDiagnosticReportData }, {
-          validate: get(Meteor, 'settings.public.defaults.schemas.validate', false), 
-          filter: get(Meteor, 'settings.public.defaults.schemas.filter', false), 
-          removeEmptyStrings: get(Meteor, 'settings.public.defaults.schemas.removeEmptyStrings', false)
-        }, function(error, result) {
+      DiagnosticReports._collection.update(
+        {_id: this.data.diagnosticReportId}, {$set: fhirDiagnosticReportData }, function(error, result) {
           if (error) {
             console.log("error", error);
 
@@ -500,11 +500,7 @@ export class DiagnosticReportDetail extends React.Component {
       //   fhirDiagnosticReportData.performer = fhirDiagnosticReportData.performer[0];
       // }
       
-      DiagnosticReports.insert(fhirDiagnosticReportData, {
-        validate: get(Meteor, 'settings.public.defaults.schemas.validate', false), 
-        filter: get(Meteor, 'settings.public.defaults.schemas.filter', false), 
-        removeEmptyStrings: get(Meteor, 'settings.public.defaults.schemas.removeEmptyStrings', false)
-      }, function(error, result) {
+      DiagnosticReports._collection.insert(fhirDiagnosticReportData,function(error, result) {
         if (error) {
           console.log("error", error);
           Bert.alert(error.reason, 'danger');
