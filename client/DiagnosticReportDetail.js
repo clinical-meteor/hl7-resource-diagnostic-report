@@ -470,9 +470,9 @@ export class DiagnosticReportDetail extends React.Component {
       
       DiagnosticReports.update(
         {_id: this.data.diagnosticReportId}, {$set: fhirDiagnosticReportData }, {
-          validate: true, 
-          filter: false, 
-          removeEmptyStrings: false
+          validate: get(Meteor, 'settings.public.defaults.schemas.validate', false), 
+          filter: get(Meteor, 'settings.public.defaults.schemas.filter', false), 
+          removeEmptyStrings: get(Meteor, 'settings.public.defaults.schemas.removeEmptyStrings', false)
         }, function(error, result) {
           if (error) {
             console.log("error", error);
@@ -501,9 +501,9 @@ export class DiagnosticReportDetail extends React.Component {
       // }
       
       DiagnosticReports.insert(fhirDiagnosticReportData, {
-        validate: true, 
-        filter: false, 
-        removeEmptyStrings: false
+        validate: get(Meteor, 'settings.public.defaults.schemas.validate', false), 
+        filter: get(Meteor, 'settings.public.defaults.schemas.filter', false), 
+        removeEmptyStrings: get(Meteor, 'settings.public.defaults.schemas.removeEmptyStrings', false)
       }, function(error, result) {
         if (error) {
           console.log("error", error);
