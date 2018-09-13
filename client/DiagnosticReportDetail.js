@@ -522,7 +522,7 @@ export class DiagnosticReportDetail extends React.Component {
 
   handleDeleteButton(){
     let self = this;
-    DiagnosticReports.remove({_id: this.data.diagnosticReportId}, function(error, result){
+    DiagnosticReports._collection.remove({_id: this.data.diagnosticReportId}, function(error, result){
       if (error) {
         Bert.alert(error.reason, 'danger');
       }
