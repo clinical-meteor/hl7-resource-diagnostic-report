@@ -129,7 +129,7 @@ export class DiagnosticReportsTable extends React.Component {
   renderDateHeader(displayDates){
     if (displayDates) {
       return (
-        <th className='effectiveDateTime'  style={{width: '120px'}}>effective date</th>
+        <th className='effectiveDateTime'  style={{width: '120px'}}>Effective Date</th>
       );
     }
   }
@@ -174,13 +174,13 @@ export class DiagnosticReportsTable extends React.Component {
         <thead>
           <tr>
           { this.renderTogglesHeader(this.data.displayToggle) }
-            <th className='subjectDisplay' style={{width: '140px'}}>subject</th>
-            <th className='code'>code</th>
-            <th className='status'>status</th>
-            <th className='issued' style={{width: '120px'}}>issued</th>
-            <th className='performerDisplay'>performer</th>
-            <th className='identifier'>identifier</th>
-            <th className='category'>category</th>
+            <th className='subjectDisplay' style={{width: '140px'}}>Subject</th>
+            <th className='code'>Code</th>
+            <th className='status'>Status</th>
+            <th className='issued' style={{width: '120px'}}>Issued</th>
+            <th className='performerDisplay'>Performer</th>
+            <th className='identifier'>Identifier</th>
+            <th className='category'>Category</th>
             { this.renderDateHeader(this.data.displayDates) }
           </tr>
         </thead>
