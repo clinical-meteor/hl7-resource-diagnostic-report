@@ -6,17 +6,37 @@
 //
 // =======================================================================
 
+import { 
+  CssBaseline,
+  // Grid, 
+  Container,
+  Divider,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Button,
+  Tab, 
+  Tabs,
+  Typography,
+  TextField,
+  DatePicker,
+  Box
+} from '@material-ui/core';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
-import { CardActions, CardText } from 'material-ui/Card';
-import { GlassCard, VerticalCanvas, Glass } from 'meteor/clinical:glass-ui';
-
-import DatePicker from 'material-ui/DatePicker';
-import RaisedButton from 'material-ui/RaisedButton';
+// import DatePicker from 'material-ui/DatePicker';
+// import Button from 'material-ui/Button';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import TextField from 'material-ui/TextField';
-import { browserHistory } from 'react-router';
+// import TextField from 'material-ui/TextField';
+// import { browserHistory } from 'react-router';
 import { get, set } from 'lodash';
 import PropTypes from 'prop-types';
 import { Col, Grid, Row } from 'react-bootstrap';
@@ -180,7 +200,7 @@ export class DiagnosticReportDetail extends React.Component {
       return (
         <Row>
           <Col md={3} >
-            <DatePicker 
+            {/* <DatePicker 
               name='effectiveDate'
               floatingLabelText="Effective Date" 
               hintText="YYYY-MM-DD" 
@@ -190,7 +210,23 @@ export class DiagnosticReportDetail extends React.Component {
               onChange={ this.changeState.bind(this, 'effectiveDate')}    
               floatingLabelFixed={true}
               fullWidth  
-              />    
+              />    */}
+              <KeyboardDatePicker
+                disableToolbar
+                name='effectiveDate'
+                variant="inline"
+                format="YYYY-MM-DD"
+                margin="normal"
+                id="effective-date-picker-inline"
+                label="Effective Date"
+                fullWidth
+                value={ datePickerValue ? datePickerValue : null}    
+                onChange={ this.changeState.bind(this, 'effectiveDate')}    
+                // onChange={handleStartDateChange}
+                // KeyboardButtonProps={{
+                //   'aria-label': 'change date',
+                // }}
+              /> 
           </Col>
         </Row>     
       );
@@ -202,135 +238,128 @@ export class DiagnosticReportDetail extends React.Component {
 
     return (
       <div id={this.props.id} className="diagnosticReportDetail">
-        <CardText>
-        <Row>
-            <Col md={3}>
-              <TextField
-                id='identifierInput'
-                ref='identifier'
-                name='identifier'
-                floatingLabelText='Identifier'
-                value={ get(formData, 'identifier') }
-                onChange={ this.changeState.bind(this, 'identifier')}
-                hintText='CR-01292494'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-            <Col md={3}>
-              <TextField
-                id='statusInput'
-                ref='status'
-                name='status'
-                floatingLabelText='Status'
-                value={ get(formData, 'status') }
-                onChange={ this.changeState.bind(this, 'status')}
-                hintText='final'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-            <Col md={3}>
-              <TextField
-                id='codeInput'
-                ref='code'
-                name='code'
-                floatingLabelText='Code'
-                value={ get(formData, 'code') }
-                onChange={ this.changeState.bind(this, 'code')}
-                hintText='Chest PA/Lateral'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-            <Col md={3}>
-              <TextField
-                id='categoryInput'
-                ref='category'
-                name='category'
-                floatingLabelText='Category'
-                value={ get(formData, 'category') }
-                onChange={ this.changeState.bind(this, 'category')}
-                hintText='Computed Radiography'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6} >
-              <TextField
-                id='subjectDisplayInput'
-                ref='subjectDisplay'
-                name='subjectDisplay'
-                floatingLabelText='Subject'
-                value={ get(formData, 'subjectDisplay') }
-                onChange={ this.changeState.bind(this, 'subjectDisplay')}
-                hintText='Jane Doe'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-            <Col md={6} >
-              <TextField
-                id='subjectReferenceInput'
-                ref='subjectReference'
-                name='subjectReference'
-                floatingLabelText='Subject Reference'
-                value={ get(formData, 'subjectReference') }
-                onChange={ this.changeState.bind(this, 'subjectReference')}
-                hintText='Patient/123456790'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6} >
-              <TextField
-                id='performerDisplayInput'
-                ref='performerDisplay'
-                name='performerDisplay'
-                floatingLabelText='Performer'
-                value={ get(formData, 'performerDisplay') }
-                onChange={ this.changeState.bind(this, 'performerDisplay')}
-                hintText='Gregory House'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-            <Col md={6} >
-              <TextField
-                id='performerReferenceInput'
-                ref='performerReference'
-                name='performerReference'
-                floatingLabelText='Performer'
-                value={ get(formData, 'performerReference') }
-                onChange={ this.changeState.bind(this, 'performerReference')}
-                hintText='Practitioner/123456790'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>   
-            </Col>
-          </Row>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <CardContent>
+            <Row>
+              <Col md={3}>
+                <TextField
+                  id='identifierInput'
+                  name='identifier'
+                  floatingLabelText='Identifier'
+                  value={ get(formData, 'identifier') }
+                  onChange={ this.changeState.bind(this, 'identifier')}
+                  hintText='CR-01292494'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+              <Col md={3}>
+                <TextField
+                  id='statusInput'                  
+                  name='status'
+                  floatingLabelText='Status'
+                  value={ get(formData, 'status') }
+                  onChange={ this.changeState.bind(this, 'status')}
+                  hintText='final'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+              <Col md={3}>
+                <TextField
+                  id='codeInput'                  
+                  name='code'
+                  floatingLabelText='Code'
+                  value={ get(formData, 'code') }
+                  onChange={ this.changeState.bind(this, 'code')}
+                  hintText='Chest PA/Lateral'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+              <Col md={3}>
+                <TextField
+                  id='categoryInput'                  
+                  name='category'
+                  floatingLabelText='Category'
+                  value={ get(formData, 'category') }
+                  onChange={ this.changeState.bind(this, 'category')}
+                  hintText='Computed Radiography'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6} >
+                <TextField
+                  id='subjectDisplayInput'                  
+                  name='subjectDisplay'
+                  floatingLabelText='Subject'
+                  value={ get(formData, 'subjectDisplay') }
+                  onChange={ this.changeState.bind(this, 'subjectDisplay')}
+                  hintText='Jane Doe'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+              <Col md={6} >
+                <TextField
+                  id='subjectReferenceInput'                  
+                  name='subjectReference'
+                  floatingLabelText='Subject Reference'
+                  value={ get(formData, 'subjectReference') }
+                  onChange={ this.changeState.bind(this, 'subjectReference')}
+                  hintText='Patient/123456790'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6} >
+                <TextField
+                  id='performerDisplayInput'                  
+                  name='performerDisplay'
+                  floatingLabelText='Performer'
+                  value={ get(formData, 'performerDisplay') }
+                  onChange={ this.changeState.bind(this, 'performerDisplay')}
+                  hintText='Gregory House'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>
+              </Col>
+              <Col md={6} >
+                <TextField
+                  id='performerReferenceInput'                  
+                  name='performerReference'
+                  floatingLabelText='Performer'
+                  value={ get(formData, 'performerReference') }
+                  onChange={ this.changeState.bind(this, 'performerReference')}
+                  hintText='Practitioner/123456790'
+                  floatingLabelFixed={true}
+                  fullWidth
+                  /><br/>   
+              </Col>
+            </Row>
 
-          { this.renderDatePicker(true, get(formData, 'effectiveDate') ) }
+            { this.renderDatePicker(true, get(formData, 'effectiveDate') ) }
 
-          <TextField
-            id='conclusionInput'
-            ref='conclusion'
-            name='conclusion'
-            floatingLabelText='Conclusion'
-            value={ get(formData, 'conclusion') }
-            onChange={ this.changeState.bind(this, 'conclusion')}
-            multiLine={true}          
-            rows={5}
-            fullWidth
-            /><br/>
-      </CardText>
-        <CardActions>
-          { this.determineButtons(this.data.diagnosticReportId) }
-        </CardActions>
+            <TextField
+              id='conclusionInput'              
+              name='conclusion'
+              floatingLabelText='Conclusion'
+              value={ get(formData, 'conclusion') }
+              onChange={ this.changeState.bind(this, 'conclusion')}
+              multiLine={true}          
+              rows={5}
+              fullWidth
+              /><br/>
+          </CardContent>
+          <CardActions>
+            { this.determineButtons(this.data.diagnosticReportId) }
+          </CardActions>
+        </MuiPickersUtilsProvider>
       </div>
     );
   }
@@ -339,13 +368,13 @@ export class DiagnosticReportDetail extends React.Component {
     if (diagnosticReportId) {
       return (
         <div>
-          <RaisedButton id="updateDiagnosticReportButton" label="Save" primary={true} onClick={this.handleSaveButton.bind(this)}  style={{marginRight: '20px'}}  />
-          <RaisedButton id="deleteDiagnosticReportButton" label="Delete" onClick={this.handleDeleteButton.bind(this)} />
+          <Button id="updateDiagnosticReportButton" color="primary" onClick={this.handleSaveButton.bind(this)}  style={{marginRight: '20px'}} >Save</Button>
+          <Button id="deleteDiagnosticReportButton" onClick={this.handleDeleteButton.bind(this)}>Delete</Button>
         </div>
       );
     } else {
       return(
-        <RaisedButton id="saveDiagnosticReportButton" label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
+        <Button id="saveDiagnosticReportButton" color="primary" onClick={this.handleSaveButton.bind(this)}>Save</Button>
       );
     }
   }

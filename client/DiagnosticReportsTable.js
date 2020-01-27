@@ -1,10 +1,31 @@
-import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
-import { GlassCard, VerticalCanvas, Glass } from 'meteor/clinical:glass-ui';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-import React from 'react';
+import { 
+  CssBaseline,
+  Grid, 
+  Container,
+  Divider,
+  Card,
+  CardActions,
+  CardHeader,
+  CardContent,
+  CardMedia,
+  Tab, 
+  Tabs,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+} from '@material-ui/core';
+
+// import { GlassCard, VerticalCanvas, Glass } from 'meteor/clinical:glass-ui';
+
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import { Table } from 'react-bootstrap';
+
 import Toggle from 'material-ui/Toggle';
 import { get } from 'lodash';
 
@@ -111,40 +132,43 @@ export class DiagnosticReportsTable extends React.Component {
   renderTogglesHeader(displayToggle){
     if (displayToggle) {
       return (
-        <th className="toggle">toggle</th>
+        <TableCell className="toggle">toggle</TableCell>
       );
     }
   }
   renderToggles(displayToggle, patientId ){
     if (displayToggle) {
       return (
-        <td className="toggle">
-            <Toggle
-              defaultToggled={true}
-            />
-          </td>
+        <TableCell className="toggle">
+          <Toggle
+            defaultToggled={true}
+          />
+        </TableCell>
       );
     }
   }
   renderDateHeader(displayDates){
     if (displayDates) {
       return (
-        <th className='effectiveDateTime'  style={{width: '120px'}}>Effective Date</th>
+        <TableCell className='effectiveDateTime'  style={{width: '120px'}}>Effective Date</TableCell>
       );
     }
   }
   renderDate(displayDates, newDate ){
     if (displayDates) {
       return (
-        <td className='date'  style={{width: '120px'}}>{ moment(newDate).format('YYYY-MM-DD') }</td>
+        <TableCell className='date'  style={{width: '120px'}}>{ moment(newDate).format('YYYY-MM-DD') }</TableCell>
       );
     }
   }
   rowClick(id){
-    // console.log('rowClick', id)
     Session.set('diagnosticReportsUpsert', false);
     Session.set('selectedDiagnosticReportId', id);
-    Session.set('diagnosticReportPageTabIndex', 2);
+    Session.set('diagnosticReportPageTabIndex', 1);
+
+    if(typeof this.props.onRowClick === "function"){
+      this.props.onRowClick(id);
+    }
   };
   render () {
     if(process.env.NODE_ENV === "test") console.log('DiagnosticReportsTable.render()', this.data.diagnosticReports)
@@ -153,40 +177,40 @@ export class DiagnosticReportsTable extends React.Component {
     for (var i = 0; i < this.data.diagnosticReports.length; i++) {
 
       tableRows.push(
-        <tr key={i} className="diagnosticReportRow" style={{cursor: "pointer"}} onClick={ this.rowClick.bind('this', this.data.diagnosticReports[i]._id)} >
+        <TableRow key={i} className="diagnosticReportRow" style={{cursor: "pointer"}} onClick={ this.rowClick.bind('this', this.data.diagnosticReports[i]._id)} >
           { this.renderToggles(this.data.displayToggle, this.data.diagnosticReports[i]) }
 
-          <td className='subjectDisplay' style={{width: '140px'}}>{ this.data.diagnosticReports[i].subjectDisplay }</td>
-          <td className='code'>{ this.data.diagnosticReports[i].code }</td>
-          <td className='status'>{ this.data.diagnosticReports[i].status }</td>
-          <td className='issued'  style={{width: '120px'}}>{ this.data.diagnosticReports[i].issued }</td>
-          <td className='performerDisplay'>{ this.data.diagnosticReports[i].performerDisplay }</td>
-          <td className='identifier'>{ this.data.diagnosticReports[i].identifier }</td>
-          {/* <td className='effectiveDateTime'>{ this.data.diagnosticReports[i].effectiveDate }</td> */}
-          <td className='category'>{ this.data.diagnosticReports[i].category }</td>
+          <TableCell className='subjectDisplay' style={{minWidth: '400px'}}>{ this.data.diagnosticReports[i].subjectDisplay }</TableCell>
+          <TableCell className='code'>{ this.data.diagnosticReports[i].code }</TableCell>
+          <TableCell className='status'>{ this.data.diagnosticReports[i].status }</TableCell>
+          <TableCell className='issued'  style={{width: '120px'}}>{ this.data.diagnosticReports[i].issued }</TableCell>
+          <TableCell className='performerDisplay'>{ this.data.diagnosticReports[i].performerDisplay }</TableCell>
+          <TableCell className='identifier'>{ this.data.diagnosticReports[i].identifier }</TableCell>
+          {/* <TableCell className='effectiveDateTime'>{ this.data.diagnosticReports[i].effectiveDate }</TableCell> */}
+          <TableCell className='category'>{ this.data.diagnosticReports[i].category }</TableCell>
           { this.renderDate(this.data.displayDates, this.data.diagnosticReports[i].effectiveDate) }
-        </tr>
+        </TableRow>
       )
     }
 
     return(
-      <Table id='diagnosticReportsTable' hover >
-        <thead>
-          <tr>
+      <Table id='diagnosticReportsTable' size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
           { this.renderTogglesHeader(this.data.displayToggle) }
-            <th className='subjectDisplay' style={{width: '140px'}}>Subject</th>
-            <th className='code'>Code</th>
-            <th className='status'>Status</th>
-            <th className='issued' style={{width: '120px'}}>Issued</th>
-            <th className='performerDisplay'>Performer</th>
-            <th className='identifier'>Identifier</th>
-            <th className='category'>Category</th>
+            <TableCell className='subjectDisplay' style={{width: '140px'}}>Subject</TableCell>
+            <TableCell className='code'>Code</TableCell>
+            <TableCell className='status'>Status</TableCell>
+            <TableCell className='issued' style={{width: '120px'}}>Issued</TableCell>
+            <TableCell className='performerDisplay'>Performer</TableCell>
+            <TableCell className='identifier'>Identifier</TableCell>
+            <TableCell className='category'>Category</TableCell>
             { this.renderDateHeader(this.data.displayDates) }
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           { tableRows }
-        </tbody>
+        </TableBody>
       </Table>
     );
   }
