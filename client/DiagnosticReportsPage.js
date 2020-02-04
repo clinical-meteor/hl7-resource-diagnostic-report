@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 
-// import { GlassCard, VerticalCanvas, FullPageCanvas, Glass } from 'meteor/clinical:glass-ui';
 import { StyledCard, PageCanvas } from 'material-fhir-ui';
 
 import DiagnosticReportDetail from './DiagnosticReportDetail';

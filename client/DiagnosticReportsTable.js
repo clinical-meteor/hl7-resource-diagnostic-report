@@ -19,14 +19,12 @@ import {
   TableHead,
   TableRow,
   TablePagination,
+  Checkbox
 } from '@material-ui/core';
-
-// import { GlassCard, VerticalCanvas, Glass } from 'meteor/clinical:glass-ui';
 
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 
-import Toggle from 'material-ui/Toggle';
 import { get } from 'lodash';
 
 const mapDiagnosticReportToRow = function(report, fhirVersion){
@@ -140,8 +138,8 @@ export class DiagnosticReportsTable extends React.Component {
     if (displayToggle) {
       return (
         <TableCell className="toggle">
-          <Toggle
-            defaultToggled={true}
+          <Checkbox
+            defaultChecked={true}
           />
         </TableCell>
       );

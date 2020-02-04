@@ -23,20 +23,20 @@ import {
   DatePicker,
   Box
 } from '@material-ui/core';
+
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+
 import MomentUtils from '@date-io/moment';
 
-// import DatePicker from 'material-ui/DatePicker';
-// import Button from 'material-ui/Button';
+
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-// import TextField from 'material-ui/TextField';
-// import { browserHistory } from 'react-router';
+
 import { get, set } from 'lodash';
 import PropTypes from 'prop-types';
 import { Col, Grid, Row } from 'react-bootstrap';
@@ -506,14 +506,14 @@ export class DiagnosticReportDetail extends React.Component {
           if (error) {
             console.log("error", error);
 
-            Bert.alert(error.reason, 'danger');
+            // Bert.alert(error.reason, 'danger');
           }
           if (result) {
             HipaaLogger.logEvent({eventType: "update", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "DiagnosticReports", recordId: self.data.diagnosticReportId});
             Session.set('diagnosticReportPageTabIndex', 1);
             Session.set('selectedDiagnosticReport', false);
             Session.set('fhirDiagnosticReportData', false);
-            Bert.alert('DiagnosticReport updated!', 'success');
+            // Bert.alert('DiagnosticReport updated!', 'success');
           }
         });
     } else {
@@ -532,14 +532,14 @@ export class DiagnosticReportDetail extends React.Component {
       DiagnosticReports._collection.insert(fhirDiagnosticReportData,function(error, result) {
         if (error) {
           console.log("error", error);
-          Bert.alert(error.reason, 'danger');
+          // Bert.alert(error.reason, 'danger');
         }
         if (result) {
           HipaaLogger.logEvent({eventType: "create", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "DiagnosticReports", recordId: result});
           Session.set('diagnosticReportPageTabIndex', 1);
           Session.set('selectedDiagnosticReport', false);
           Session.set('fhirDiagnosticReportData', false);
-          Bert.alert('DiagnosticReport added!', 'success');
+          // Bert.alert('DiagnosticReport added!', 'success');
         }
       });
     }
@@ -553,14 +553,14 @@ export class DiagnosticReportDetail extends React.Component {
     let self = this;
     DiagnosticReports._collection.remove({_id: this.data.diagnosticReportId}, function(error, result){
       if (error) {
-        Bert.alert(error.reason, 'danger');
+        // Bert.alert(error.reason, 'danger');
       }
       if (result) {
         HipaaLogger.logEvent({eventType: "delete", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "DiagnosticReports", recordId: self.data.diagnosticReportId});
         Session.set('diagnosticReportPageTabIndex', 1);
         Session.set('selectedDiagnosticReport', false);
         Session.set('fhirDiagnosticReportData', false);
-        Bert.alert('DiagnosticReport removed!', 'success');
+        // Bert.alert('DiagnosticReport removed!', 'success');
       }
     });
   }
